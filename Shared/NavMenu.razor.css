@@ -2,6 +2,10 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.navbar{
+    padding-right: 1rem !important;
+}
+
 .top-row {
     height: var(--global-topbar-height);
     background-color: var(--global-top-row-color);
