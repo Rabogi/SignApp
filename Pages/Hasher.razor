@@ -24,22 +24,22 @@
     private string filename = string.Empty;
     private string plainT = string.Empty;
     private string digestPlain = "Hash will appear here";
-    private string rawDataF = string.Empty;
+    private byte[] rawDataF = new byte[0];
     private string digestFile = "Hash will appear here";
     private void HashStrIn()
     {
-        this.digestPlain = Shared.HashMaster.Hash256(this.plainT);
+        this.digestPlain = Shared.HashMaster.Hash256Str(this.plainT);
     }
     private void HashFileIn()
     {
-        this.digestFile = Shared.HashMaster.Hash256(this.rawDataF);
+        this.digestFile = Shared.HashMaster.Hash256File(this.rawDataF);
     }
 
     private async Task SingleUpload(InputFileChangeEventArgs e)
     {
         var file = e.File;
         var ms = new MemoryStream();
-        await file.OpenReadStream(1024 * 1024).CopyToAsync(ms);
-        this.rawDataF = Convert.ToBase64String(ms.ToArray());
+        await file.OpenReadStream(1024*1024*5).CopyToAsync(ms);
+        this.rawDataF = ms.ToArray();
     }
 }
