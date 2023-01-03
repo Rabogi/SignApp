@@ -39,7 +39,7 @@
     {
         var file = e.File;
         var ms = new MemoryStream();
-        await file.OpenReadStream(1024*1024*5).CopyToAsync(ms);
+        await file.OpenReadStream(1024*1024*8).CopyToAsync(ms);
         this.rawDataF = ms.ToArray();
     }
 }

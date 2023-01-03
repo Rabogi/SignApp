@@ -1,0 +1,30 @@
+﻿@page "/login"
+
+<PageTitle>Login</PageTitle>
+
+<h1>Login or sign-up</h1>
+
+<div>
+    <div>
+
+        @* Login or sign up fields *@
+        <div>
+            <p>
+                <label for="email">Username</label>
+                <input type="text" id="email" />
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type="password" id="password" />
+            </p>
+            <p>
+                <button type="button" class="btn btn-primary"><span class="oi oi-account-login" aria-hidden="true"/>  Login</button>
+                <button type="button" class="btn btn-primary"><span class="oi oi-check" aria-hidden="true"/>  Sign up</button>
+            </p>
+        </div>
+    </div>
+</div>
+    
+@code {
+    
+}
