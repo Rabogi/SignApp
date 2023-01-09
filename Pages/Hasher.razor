@@ -1,0 +1,45 @@
+﻿@page "/Hasher"
+
+<PageTitle>Hashing Page</PageTitle>
+
+<h1>SHA 256 Hasher</h1>
+
+<div>
+    <button type="submit" class="btn btn-primary" @onclick="HashStrIn">Hash from box</button>
+
+    <input type="text" @bind="this.plainT">
+
+    <p role="status">Output: @this.digestPlain</p>
+
+</div>
+<div>
+    <button type="submit" class="btn btn-primary" @onclick="HashFileIn">Hash from box</button>
+
+    <InputFile OnChange="@SingleUpload" />
+
+    <p role="status">Output: @this.digestFile</p>
+</div>
+
+@code {
+    private string filename = string.Empty;
+    private string plainT = string.Empty;
+    private string digestPlain = "Hash will appear here";
+    private byte[] rawDataF = new byte[0];
+    private string digestFile = "Hash will appear here";
+    private void HashStrIn()
+    {
+        this.digestPlain = Shared.HashMaster.Hash256Str(this.plainT);
+    }
+    private void HashFileIn()
+    {
+        this.digestFile = Shared.HashMaster.Hash256File(this.rawDataF);
+    }
+
+    private async Task SingleUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var ms = new MemoryStream();
+        await file.OpenReadStream(1024*1024*8).CopyToAsync(ms);
+        this.rawDataF = ms.ToArray();
+    }
+}

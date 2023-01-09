@@ -2,12 +2,18 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.navbar{
+    padding-right: 1rem !important;
+}
+
 .top-row {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    height: var(--global-topbar-height);
+    background-color: var(--global-top-row-color);
+    border-bottom: var(--global-top-row-border);
 }
 
 .navbar-brand {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1.1rem;
 }
 
