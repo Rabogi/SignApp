@@ -10,21 +10,26 @@
         @* Login or sign up fields *@
         <div>
             <p>
-                <label for="email">Username</label>
-                <input type="text" id="email" />
+                <label for="username">Username</label>
+                <input type="text" id="username" @bind="username"/>
             </p>
             <p>
                 <label for="password">Password</label>
-                <input type="password" id="password" />
+                <input type="password" id="password" @bind="password"/>
             </p>
             <p>
                 <button type="button" class="btn btn-primary"><span class="oi oi-account-login" aria-hidden="true"/>  Login</button>
-                <button type="button" class="btn btn-primary"><span class="oi oi-check" aria-hidden="true"/>  Sign up</button>
+                <button type="button" class="btn btn-primary" @onclick="(()=>signUp(username,password))"><span class="oi oi-check" aria-hidden="true"/>  Sign up</button>
             </p>
         </div>
     </div>
 </div>
     
 @code {
-    
+    private string username;
+    private string password;
+
+    private void signUp(string username, string password)
+    {
+    }
 }
