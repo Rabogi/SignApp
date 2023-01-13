@@ -8,17 +8,21 @@
     <button type="submit" class="btn btn-primary" @onclick="HashStrIn">Hash from box</button>
 
     <input type="text" @bind="this.plainT">
-
-    <p role="status">Output: @this.digestPlain</p>
-
+    <p> </p>
+    <p>
+        <textarea role="status" style="margin: 0vh; width: 94vh;">Output: @this.digestPlain</textarea>
+    </p>
 </div>
 <div>
     <button type="submit" class="btn btn-primary" @onclick="HashFileIn">Hash from box</button>
 
     <InputFile OnChange="@SingleUpload" />
-
-    <p role="status">Output: @this.digestFile</p>
+    <p> </p>
+    <p>
+        <textarea role="status" style="margin: 0vh; width: 94vh;">Output: @this.digestFile</textarea>
+    </p>
 </div>
+
 
 @code {
     private string filename = string.Empty;
@@ -39,7 +43,7 @@
     {
         var file = e.File;
         var ms = new MemoryStream();
-        await file.OpenReadStream(1024*1024*8).CopyToAsync(ms);
+        await file.OpenReadStream(1024 * 1024 * 8).CopyToAsync(ms);
         this.rawDataF = ms.ToArray();
     }
 }

@@ -1,0 +1,29 @@
+﻿@page "/File"
+
+<PageTitle>File</PageTitle>
+
+<h1>File</h1>
+
+<div>
+    <button type="submit" class="btn btn-primary" @onclick="DownloadFile">savefile as</button>
+    <input type="text" @bind="fileName" />filename
+    <InputFile OnChange="@SingleUpload" />
+</div>
+@inject IJSRuntime JSRuntime
+@code {
+    private string fileName = "blank.Text";
+    private byte[] rawDataF = new byte[0];
+    private string? noteContent = "";
+    private async Task SingleUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var ms = new MemoryStream();
+        await file.OpenReadStream(1024 * 1024 * 8).CopyToAsync(ms);
+        this.rawDataF = ms.ToArray();
+    }
+    public async void DownloadFile()
+    {   
+        noteContent = SignMaster.byteToString(rawDataF);
+        JSRuntime.InvokeVoidAsync("BlazorDownloadFile",fileName,"text/utf-8",noteContent);
+    }
+}

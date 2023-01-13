@@ -2,36 +2,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using StackExchange.Redis;
+using System.Net.Http;
+using System.Text.Json;
+using HarperNetClient.models;
 
 namespace SignApp.Shared
 {
-    public class AuthDB
+    public abstract class AuthDB : User
     {
-        private static ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-        private static IDatabase db = redis.GetDatabase();
-        public static bool CheckUser(string username, string password)
-        {   
-            if(!db.KeyExists(username))
-                return false;
-            string hash = HashMaster.Hash256Str(password);
-            string storedHash = db.StringGet(username);
-            return hash == storedHash;
+
+    }
+
+    public interface IHarperConfiguration
+    {
+        HarperDbConfiguration GetHarperConfigurations();
+    }
+
+    public class HarperConfigurations : IHarperConfiguration
+    {
+        private IConfiguration _config;
+        public HarperConfigurations(IConfiguration configs)
+        {
+            _config = configs;
         }
-        public static bool AddUser(string username, string password)
-        {      
-            if(db.KeyExists(username))
-                return false;
-            if(username == "" || password == "")
-                return false;
-            string restrictedChars = "`~!@#$%^&*()_+-=,./<>?;':\"[]{}\\|";
-            foreach(char c in restrictedChars)
-            {
-                if(username.Contains(c))
-                    return false;
-            }
-            string hash = HashMaster.Hash256Str(password);
-            return db.StringSet(username, hash);
+        public HarperDbConfiguration GetHarperConfigurations()
+        {
+            var dbConfigs = _config.GetSection("ConnectionString").Get<HarperDbConfiguration>();
+            return dbConfigs;
+        }
+    }
+
+    public class User
+    {
+        public string username { get; set; }
+        public string passwordHash { get; set; }
+        public string docIds { get; set; }
+        public string privateSignature { get; set; }
+        public string publicSignature { get; set; }
+
+        public User()
+        {
+            this.username = "";
+            this.passwordHash = "";
+            this.docIds = "";
+            this.privateSignature = "";
+            this.publicSignature = "";
+        }
+        public User(string username, string password)
+        {
+            this.username = username;
+            this.passwordHash = HashMaster.Hash256Str(password);
+            this.docIds = "";
+            this.privateSignature = "";
+            this.publicSignature = "";
         }
     }
 }
